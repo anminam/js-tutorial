@@ -1,19 +1,24 @@
 var path = require('path');
 var htmlWebpackPlugin = require('html-webpack-plugin');
+var {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'none',
     entry: './src/index.js',
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
             {
-                test: '/\.css$/',
-                use: ['style-laoder', 'css-loader']
-            },
+                test: /\.scss$/,
+                use: [
+                    'style-loader', // Creates `style` nodes from JS strings
+                    'css-loader',   // Translates CSS into CommonJS
+                    'sass-loader'   // Compiles Sass to CSS
+                ],
+            }
         ]
     },
     devServer: {
@@ -23,6 +28,9 @@ module.exports = {
     plugins: [
         new htmlWebpackPlugin({
             template: 'index.html'
-        })    
+        }),
+        new CleanWebpackPlugin({
+            cleanAfterEveryBuildPatterns:['dist']
+        })
     ]
 }
