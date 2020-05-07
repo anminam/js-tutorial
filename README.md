@@ -27,3 +27,7 @@ script: {
     "deploy": "gh-pages -d dist"
 }
 ```
+
+# js slide
+ - css만 이용해서 슬라이드 설정하기
+ - style - src/styles/slide.scss
