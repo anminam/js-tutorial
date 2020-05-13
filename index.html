@@ -26,14 +26,30 @@
         </p>
     </div>
     <div id="dragdrop">
-        <div class="empty">
-            <div class="fill" draggable="true"></div>
+        <div class="to-do-list dropzone">
+            <div class='list-header'>
+                <h2>to-do</h2>
+            </div>
+            <ul class="items">
+                <li class="item" id='item1' draggable="true">
+                    밥먹기
+                </li>
+                <li class="item" id='item2' draggable="true">
+                    운동하기
+                </li>
+                <li class="item" id='item3' draggable="true">
+                    공부하기
+                </li>
+            </ul>
         </div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
+        <div class="process-list dropzone">
+            <h2>process</h2>
+            <ul class="items"></ul>
+        </div>
+        <div class="done-list dropzone">
+            <h2>done</h2>
+            <ul class="items"></ul>
+        </div>
     </div>
 </body>
 </html>
