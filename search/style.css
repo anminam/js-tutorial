@@ -1,0 +1,9 @@
+.none {
+  display: none;
+}
+
+#recommend {
+}
+#recommend li.selected {
+  background-color: blue;
+}
