@@ -6,22 +6,35 @@ export default class Component {
     this.$target = $target;
 
     this.setup();
+    this.setEvent();
     this.render();
   }
 
   setup() {}
+  setEvent() {}
 
   render() {
-    this.$target.innerHTML = this.templete();
-    this.setEvent();
+    this.$target.innerHTML = this.getTemplete();
   }
-
-  templete() {
+  getTemplete() {
     return "";
   }
-  setEvent() {}
+
   setState(newState) {
     this.$state = { ...this.$state, ...newState };
     this.render();
+  }
+
+  addEvent(eventType, selector, callback) {
+    const children = [...document.querySelectorAll(selector)];
+
+    const isTarget = (target) => {
+      return children.includes(target) || target.closest(selector);
+    };
+
+    this.$target.addEventListener(eventType, (event) => {
+      if (!isTarget(event.target)) return false;
+      callback(event);
+    });
   }
 }

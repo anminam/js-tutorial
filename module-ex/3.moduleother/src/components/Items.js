@@ -5,19 +5,18 @@ export default class Items extends Component {
     this.$state = { items: ["item1", "item2"] };
   }
 
-  templete() {
+  getTemplete() {
     const { items } = this.$state;
     return `
-        <button>추가</button>  
+        <button class="add-item">추가</button>
         <ul>
             ${items
               .map((item, key) => {
                 return `
                   <li>
                     ${item}
-                    <button class="remove-item" data-index="${key}">삭제</button>
-                  </li>
-                `;
+                    <button data-index="${key}" class="remove-item">삭제</button>
+                  </li>`;
               })
               .join("")}
         </ul>
@@ -25,19 +24,14 @@ export default class Items extends Component {
   }
 
   setEvent() {
-    this.$target.querySelector("button").addEventListener("click", () => {
+    this.addEvent("click", ".add-item", (event) => {
       const { items } = this.$state;
-      this.setState({ items: [...items, `item` + (items.length + 1)] });
+      this.setState({ items: [...items, `item${items.length + 1}`] });
     });
-
-    this.$target.querySelectorAll(".remove-item").forEach(($button) => {
-      $button.addEventListener("click", (event) => {
-        const { items } = this.$state;
-        const { target } = event;
-
-        items.splice(target.dataset.index, 1);
-        this.setState({ items });
-      });
+    this.addEvent("click", ".remove-item", (event) => {
+      const { items } = this.$state;
+      items.splice(event.target.dataset.index, 1);
+      this.setState({ items });
     });
   }
 }
