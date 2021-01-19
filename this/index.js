@@ -1,13 +1,9 @@
-function Person(name) {
+var Person = function (name) {
   this.name = name;
-}
-
-Person.prototype.getName = function () {
-  return this.name;
 };
 
-var me = new Person("An");
-console.log(me.getName());
+var obj = {};
 
-Person.prototype.name = "Kim";
-console.log(Person.prototype.getName());
+Person.apply(obj, ["anasfasdfminaam"]);
+
+console.log(obj);
