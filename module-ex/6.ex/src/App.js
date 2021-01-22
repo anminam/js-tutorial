@@ -1,5 +1,5 @@
-import ItemAppender from "./components/ItemAppender.js";
-import ItemFilters from "./components/ItemFilters.js";
+import Appender from "./components/Appender.js";
+import ItemFilter from "./components/ItemFilter.js";
 import Items from "./components/Items.js";
 import Component from "./core/Component.js";
 export default class App extends Component {
@@ -15,77 +15,82 @@ export default class App extends Component {
         {
           seq: 2,
           contents: "item2",
+          active: true,
+        },
+        {
+          seq: 3,
+          contents: "item3",
+          active: false,
+        },
+        {
+          seq: 4,
+          contents: "item4",
           active: false,
         },
       ],
     };
   }
-
-  templete() {
+  template() {
     return `
-      <header template-name="appender"></header>
-      <main template-name="items"></main>
-      <footer template-name="itemFilter"></footer>
+        <header template-name="appender"></header>
+        <main template-name="items"></main>
+        <footer template-name="itemFilter"></footer>
     `;
   }
 
   mount() {
-    const {
-      addItem,
-      filteredItems,
-      toggleActive,
-      deleteItem,
-      setFilter,
-    } = this;
-
+    const { addItem, filteredItems, deleteItem, toggleItem, setFilter } = this;
     const $appender = this.$target.querySelector('[template-name="appender"]');
-    new ItemAppender($appender, { addItem: addItem.bind(this) });
+    new Appender($appender, { addItem: addItem.bind(this) });
 
     const $items = this.$target.querySelector('[template-name="items"]');
     new Items($items, {
       filteredItems,
-      toggleActive: toggleActive.bind(this),
       deleteItem: deleteItem.bind(this),
+      toggleItem: toggleItem.bind(this),
     });
 
-    const $filters = this.$target.querySelector('[template-name="itemFilter"]');
-    new ItemFilters($filters, { setFilter: setFilter.bind(this) });
+    const $itemFilter = this.$target.querySelector(
+      '[template-name="itemFilter"]'
+    );
+
+    new ItemFilter($itemFilter, { setFilter: setFilter.bind(this) });
   }
 
   setFilter(filterId) {
     this.setState({ filterId });
   }
+
+  get filteredItems() {
+    const { items, filterId } = this.$state;
+    return items.filter(
+      (i) =>
+        (i.active && filterId === 1) ||
+        (!i.active && filterId === 2) ||
+        filterId === 0
+    );
+  }
+
+  setEvent() {}
+
   addItem(contents) {
     const { items } = this.$state;
+    const seq = Math.max(0, ...items.map((i) => Number(i.seq))) + 1;
     const active = false;
-    const seq = Number(Math.max(0, ...items.map((i) => i.seq))) + 1;
     this.setState({ items: [...items, { seq, contents, active }] });
   }
 
-  toggleActive(seq) {
-    const items = [...this.$state.items];
-
-    const index = items.findIndex((i) => i.seq === seq);
-    items[index].active = !items[index].active;
-    this.setState({ items });
-  }
   deleteItem(seq) {
     const items = [...this.$state.items];
-
     const index = items.findIndex((i) => i.seq === seq);
     items.splice(index, 1);
     this.setState({ items });
   }
 
-  get filteredItems() {
-    const { items, filterId } = this.$state;
-    return [
-      ...items.filter(
-        (i) =>
-          (i.active && filterId === 1) ||
-          (!i.active && filterId === 2) ||
-          filterId === 0
-      ),
-    ];
+  toggleItem(seq) {
+    const items = [...this.$state.items];
+    const index = items.findIndex((i) => i.seq === seq);
+    items[index].active = !items[index].active;
+    this.setState({ items });
   }
 }
