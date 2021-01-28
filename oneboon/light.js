@@ -44,4 +44,23 @@ class Line {
   }
 }
 
-class Light {}
+class Light {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.width = 20;
+    this.height = 300;
+
+    const lineLength = 5;
+    this.lines = [];
+
+    for (let i = 0; i < lineLength; i++) {
+      this.lines.push(
+        new Line(
+          this.x + (Math.random() + this.width - this.width * 0.5),
+          this.y
+        )
+      );
+    }
+  }
+}
