@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .il {
+            position: absolute;
+            bottom: 0;
+
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <img class="il" src='images/rabbit.png' alt='토끼'>
+    <div class="value"></div>
+    <script>
+        const il = document.querySelector('.il');
+        const value = document.querySelector('.value');
+        let yPos = 0;
+        let rafId;
+
+        function render() {
+            value.innerHTML = yPos;
+            il.style.transform = `translateY(${-yPos}px)`
+            yPos += 10;
+
+            rafId = requestAnimationFrame(render);
+            if (yPos > 500) {
+                cancelAnimationFrame(rafId)
+            }
+        }
+
+        render();
+        window.addEventListener('click', () => {
+            cancelAnimationFrame(rafId);
+        })
+    </script>
+</body>
+
+</html>
