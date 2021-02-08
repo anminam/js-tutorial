@@ -1,6 +1,6 @@
 export const fold = <T>(
   array: T[],
-  callback: (a: T, b: T) => T,
+  callback: (result: T, value: T) => T,
   initValue: T
 ): T => {
   let result: T = initValue;
