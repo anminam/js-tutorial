@@ -1,0 +1,1 @@
+export arrayLength = (array:T[]) => array.length;
